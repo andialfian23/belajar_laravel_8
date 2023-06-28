@@ -54,4 +54,8 @@ class Post extends Model
         // 1 post dimiliki 1 user jadi  belongsTo
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function getRouteKey()
+    {
+        return 'slug';
+    }
 }

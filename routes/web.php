@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardPostController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -52,11 +53,16 @@ Route::get('/categories', function () {
 //     ]);
 // });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');
-Route::post('/logout', [LoginController::class, 'logout']);
+// Route:: nama_method ( '/url' ,[ NamaController::class, 'nama_method' ])-> name(' nama_route ')-> middleware( 'jenis_user' );
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest'); //VIEW LOGIN
+Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');   //PROSES LOGIN
+Route::post('/logout', [LoginController::class, 'logout']);     //PROSES LOGOUT
 
-Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('/register', [RegisterController::class, 'index'])->middleware('guest'); //VIEW REGISTER
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');    //PROSES REGISTER
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->middleware('auth');
+
+Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
