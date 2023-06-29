@@ -14,6 +14,10 @@
     <link href="/css/dashboard.css" rel="stylesheet">
 
     <script src="/js/jquery.min.js"></script>
+    {{-- TRIX EDITOR --}}
+    <link rel="stylesheet" type="text/css" href="/trix/trix.css">
+    <script type="text/javascript" src="/trix/trix.js"></script>
+
 </head>
 
 <body>

@@ -55,7 +55,7 @@ Route::get('/categories', function () {
 
 // Route:: nama_method ( '/url' ,[ NamaController::class, 'nama_method' ])-> name(' nama_route ')-> middleware( 'jenis_user' );
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest'); //VIEW LOGIN
-Route::post('/login', [LoginController::class, 'auth'])->middleware('guest');   //PROSES LOGIN
+Route::post('/login', [LoginController::class, 'auth']);   //PROSES LOGIN
 Route::post('/logout', [LoginController::class, 'logout']);     //PROSES LOGOUT
 
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest'); //VIEW REGISTER
@@ -64,5 +64,7 @@ Route::post('/register', [RegisterController::class, 'store'])->middleware('gues
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->middleware('auth');
+
+Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
