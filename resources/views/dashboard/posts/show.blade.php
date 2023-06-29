@@ -9,8 +9,12 @@
                 </h1>
 
                 <a href="/dashboard/posts" class="btn btn-success">Back to all my posts</a>
-                <a href="/dashboard/posts" class="btn btn-warning">Edit</a>
-                <a href="/dashboard/posts" class="btn btn-danger">Delete</a>
+                <a href="/dashboard/posts/{{ $post->slug }}" class="btn btn-warning">Edit</a>
+                <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
+                    @method('delete')
+                    @csrf
+                    <button type="button" class="btn btn-danger" return="confirm('Are you sure?')">Delete</button>
+                </form>
 
                 <img src="https://source.unplash.com/500x400?{{ $post->category->name }}" alt="{{ $post->category->name }}"
                     class="img-fluid mt-3">
@@ -19,8 +23,6 @@
                     {!! $post->body !!}
                 </article>
 
-
-                <a href="/posts" class="d-block mt-3">Back to Posts</a>
             </div>
         </div>
     </div>
