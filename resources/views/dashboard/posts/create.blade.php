@@ -43,8 +43,9 @@
                 </div>
                 <div class="form-group mb-2">
                     <label for="image">Image</label>
+                    <img class="img-preview img-fluid mb-3 col-sm-5">
                     <input type="file" name="image" id="image"
-                        class="form-control @error('image') is-invalid @enderror" />
+                        class="form-control @error('image') is-invalid @enderror" onchange="previewImageI()" />
                     @error('image')
                         <small id="image_notif" class="form-text text-danger"> {{ $message }}</small>
                     @enderror
@@ -71,5 +72,17 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug);
         });
+
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+            const oFReader = new FileReader;
+            oFReader.readAsDataURL(image.files[0]);
+            oFReader.onload = function(oFReader) {
+                imgPreview.src = OFEvent.target.result;
+            }
+        }
     </script>
 @endsection

@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-lg-8">
-            <form method="POST" action="/dashboard/posts/{{ $post->slug }}" class="mb-5">
+            <form method="POST" action="/dashboard/posts/{{ $post->slug }}" class="mb-5" enctype="multipart/form-data">
                 @method('put')
                 @csrf
                 <div class="form-group mb-2">
@@ -41,6 +41,21 @@
                     </select>
                 </div>
                 <div class="form-group mb-2">
+                    <label for="image">Image</label>
+                    <input type="hidden" name="olfImage" value="{{ $post->image }}">
+                    @if ($post->image)
+                        <img src="{{ asset('storage/' . $post->image) }}"
+                            class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                    @else
+                        <img class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                    @endif
+                    <input type="file" name="image" id="image"
+                        class="form-control @error('image') is-invalid @enderror" onchange="previewImageI()" />
+                    @error('image')
+                        <small id="image_notif" class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="form-group mb-2">
                     <label for="body">Body</label>
                     @error('body')
                         <p class="text-danger">{{ $message }}</p>
@@ -62,5 +77,17 @@
                 .then(response => response.json())
                 .then(data => slug.value = data.slug);
         });
+
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+            const oFReader = new FileReader;
+            oFReader.readAsDataURL(image.files[0]);
+            oFReader.onload = function(oFReader) {
+                imgPreview.src = OFEvent.target.result;
+            }
+        }
     </script>
 @endsection
