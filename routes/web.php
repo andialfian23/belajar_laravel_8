@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\DashboardPostController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
@@ -35,27 +36,10 @@ Route::get('/categories', function () {
         'categories' => Category::all()
     ]);
 });
-// Route::get('/categories/{category:slug}', function (Category $category) {
-//     return view('posts', [
-//         'title' => "Post by Category : " . $category->name,
-//         "active" => 'categories',
-//         'posts' => $category->posts->load('category', 'author'),
-//     ]);
-// });
-
-// Route::get('/authors/{author:username}', function (User $author) {
-//     return view('posts', [
-//         'title' => "Post by Author : $author->name",
-//         'active' => 'posts',
-//         // 'posts' => $author->posts,
-//         // LAZY EAGER LOADING -> menghindari N+1 Problem
-//         'posts' => $author->posts->load('category', 'author'),
-//     ]);
-// });
 
 // Route:: nama_method ( '/url' ,[ NamaController::class, 'nama_method' ])-> name(' nama_route ')-> middleware( 'jenis_user' );
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest'); //VIEW LOGIN
-Route::post('/login', [LoginController::class, 'auth']);   //PROSES LOGIN
+Route::post('/login', [LoginController::class, 'authenticate']);        //PROSES LOGIN
 Route::post('/logout', [LoginController::class, 'logout']);     //PROSES LOGOUT
 
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest'); //VIEW REGISTER
@@ -65,6 +49,9 @@ Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->middleware('auth');
 
-// Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
+Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 
 Route::resource('/dashboard/posts', DashboardPostController::class)->middleware('auth');
+
+Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('is_admin');
+// Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show');

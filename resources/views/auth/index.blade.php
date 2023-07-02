@@ -22,10 +22,10 @@
                 <form action="/login" method="POST">
                     @csrf
                     <div class="form-floating">
-                        <input type="text" class="form-control @error('username') is-invalid @enderror" id="username"
-                            placeholder="name@example.com" name="username" value="{{ old('username') }}" autofocus required>
-                        <label for="username">Username</label>
-                        @error('username')
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            placeholder="name@example.com" name="email" value="{{ old('email') }}" autofocus required>
+                        <label for="email">Email Address</label>
+                        @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>

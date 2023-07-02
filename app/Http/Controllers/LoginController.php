@@ -14,16 +14,15 @@ class LoginController extends Controller
             'active' => 'login'
         ]);
     }
-    public function auth(Request $request)
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'email'     => 'required|email',
+            'password'  => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->intended('/dashboard');
         }
 
