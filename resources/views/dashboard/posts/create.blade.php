@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-lg-8">
-            <form method="POST" action="/dashboard/posts" class="mb-5">
+            <form method="POST" action="/dashboard/posts" class="mb-5" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group mb-2">
                     <label for="title">Title</label>
@@ -40,6 +40,14 @@
                         @endforeach
                     </select>
                     <small id="slug_notif" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="image">Image</label>
+                    <input type="file" name="image" id="image"
+                        class="form-control @error('image') is-invalid @enderror" />
+                    @error('image')
+                        <small id="image_notif" class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
                 </div>
                 <div class="form-group mb-2">
                     <label for="body">Body</label>

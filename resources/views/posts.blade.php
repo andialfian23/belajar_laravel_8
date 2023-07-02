@@ -25,8 +25,15 @@
 
     @if ($posts->count())
         <div class="card mb-3">
-            <img src="https://source.unplash.com/1200x400?{{ $posts[0]->category->name }}"
-                alt="{{ $posts[0]->category->name }}" class="card-img-top">
+            @if ($posts[0]->image)
+                <div style="max-height:400px; overflow:hidden;">
+                    <img src="{{ asset('storage/' . $posts[0]->image) }}" alt="{{ $posts[0]->category->name }}"
+                        class="img-fluid">
+                </div>
+            @else
+                <img src="https://source.unplash.com/1200x400?{{ $posts[0]->category->name }}"
+                    alt="{{ $posts[0]->category->name }}" class="card-img-top">
+            @endif
             <div class="card-body text-center">
                 <h3 class="card-title"> <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none text-dark">
                         {{ $posts[0]->title }}
@@ -60,8 +67,13 @@
                                     class="text-white text-decoration-none">
                                     {{ $post->category->name }} </a>
                             </div>
-                            <img src="https://source.unplash.com/500x400?{{ $post->category->name }}"
-                                alt="{{ $post->category->name }}" class="card-img-top">
+                            @if ($post->image)
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}"
+                                    class="img-fluid">
+                            @else
+                                <img src="https://source.unplash.com/500x400?{{ $post->category->name }}"
+                                    alt="{{ $post->category->name }}" class="card-img-top">
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">{!! $post->title !!}</h5>
                                 <p>By. <a href="/posts?author={{ $post->author->username }}"
